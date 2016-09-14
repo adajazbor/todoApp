@@ -17,7 +17,6 @@ public class EditItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
-        setTitle(R.string.title_item_edit);
 
         item = getIntent().getStringExtra(Constants.PARAM_ITEM);
         position = getIntent().getIntExtra(Constants.PARAM_POSITION, -1);

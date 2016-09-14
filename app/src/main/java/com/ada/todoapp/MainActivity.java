@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.title_items_list);
         setContentView(R.layout.activity_main);
 
         populateArrayItems();
