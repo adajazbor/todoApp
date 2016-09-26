@@ -30,12 +30,13 @@ The following **additional** features are implemented:
 * [x] Added parcelable model
 * [x] Added status column to Item table. Status == New for a new item and Updated for edited item.
 * [x] Changed listView to recycleView
+* [x] Added scrolling recacleView to the and when a new item is added
 
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://www.dropbox.com/s/jgq7g6ud0xkrc49/demo2.gif?raw=1' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://www.dropbox.com/s/m54dpc8gs2p7err/demo3.gif?raw=1' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
