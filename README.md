@@ -4,7 +4,7 @@ ToDoApp is an android app that allows building a todo list and basic todo items 
 
 Submitted by: Adriana Jazbor-Indyk
 
-Time spent: 4 hours spent in total
+Time spent: 14 hours spent in total
 
 ## User Stories
 
@@ -25,7 +25,6 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [] List anything else that you can get done to improve the app functionality!
 * [x] Added Activeandroid for db mappings
 * [x] Added parcelable model
 * [x] Added status column to Item table. Status == New for a new item and Updated for edited item.
