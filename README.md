@@ -29,7 +29,7 @@ The following **additional** features are implemented:
 * [x] Added parcelable model
 * [x] Added status column to Item table. Status == New for a new item and Updated for edited item.
 * [x] Changed listView to recycleView
-* [x] Added scrolling recacleView to the and when a new item is added
+* [x] Added scrolling recycleView to the end when a new item is added
 
 ## Video Walkthrough 
 

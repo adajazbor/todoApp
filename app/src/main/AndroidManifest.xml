@@ -3,7 +3,7 @@
     package="com.ada.todoapp">
 
     <application
-        android:name="com.activeandroid.app.Application"
+        android:name=".ToDoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,11 +18,13 @@
         <activity android:name=".EditItemActivity" android:label="@string/title_item_edit">
 
         </activity>
+        <!--
         <meta-data android:name="AA_DB_NAME" android:value="todo.db" />
         <meta-data android:name="AA_DB_VERSION" android:value="3" />
         <meta-data
             android:name="AA_MODELS"
             android:value="com.ada.todoapp.domain.model.Item" />
+            -->
     </application>
 
 </manifest>

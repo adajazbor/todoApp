@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.ada.todoapp.adapter.ItemArrayAdapter;
 import com.ada.todoapp.domain.model.Item;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,16 +59,17 @@ public class MainActivity extends AppCompatActivity {
                         Item item = todoItems.get(position);
                         Intent i = new Intent(MainActivity.this, EditItemActivity.class);
                         i.putExtra(Constants.PARAM_POSITION, position);
-                        i.putExtra(Constants.PARAM_ITEM, item);
+                        i.putExtra(Constants.PARAM_ITEM, Parcels.wrap(item));
                         startActivityForResult(i, REQUEST_CODE_EDIT);
                     }
                 });
     }
 
-
     public void onAddItem(View view) {
         Item newItem = new Item("New", etEditText.getText().toString());
-        writeItem(newItem);
+        if (writeItem(newItem)) {
+            todoItems.add(newItem);
+        }
         aToDoAdapter.notifyDataSetChanged();
         llmLayoutManager.smoothScrollToPosition(rvItems, null, todoItems.size() - 1);
         etEditText.setText("");
@@ -76,14 +79,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_EDIT && resultCode == RESULT_OK) {
             int position = data.getIntExtra(Constants.PARAM_POSITION, -1);
-            Item updatedItem = data.getParcelableExtra(Constants.PARAM_ITEM);
-            /*XXX Do not receive id since I do not have an access to setId() method in
-            Parcelable due to activeandroid framework limitation
-            todoItems.set(position, item);*/
-            Item item = todoItems.get(position);
-            item.setName(updatedItem.getName());
-            item.setStatus(updatedItem.getStatus());
-            writeItem(item);
+            Item updatedItem = Parcels.unwrap(data.getParcelableExtra(Constants.PARAM_ITEM));
+            if (writeItem(updatedItem)) {
+                todoItems.set(position, updatedItem);
+            }
             aToDoAdapter.notifyDataSetChanged();
         }
 
@@ -113,16 +112,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean writeItem(Item item) {
         try {
             Item.save(item);
-        } catch (android.database.sqlite.SQLiteConstraintException e1) {
-            // TODO somehow on duplicate I see the exception in Android console but this catch is
-            // not executed. It looks like activeandroid was catching and ignoring it internally
-            Toast.makeText(this, R.string.errorItemNotUniqueName, Toast.LENGTH_LONG).show();
-            return false;
-        } catch (Exception | Error e) {
+        } catch (Exception e) {
             Toast.makeText(this, R.string.errorSaveItem, Toast.LENGTH_LONG).show();
             return false;
         }
-        todoItems.add(item);
         Toast.makeText(this, R.string.info_item_saved, Toast.LENGTH_SHORT).show();
         return true;
     }

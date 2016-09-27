@@ -8,6 +8,8 @@ import android.widget.EditText;
 
 import com.ada.todoapp.domain.model.Item;
 
+import org.parceler.Parcels;
+
 public class EditItemActivity extends AppCompatActivity {
 
     private Item item;
@@ -20,7 +22,7 @@ public class EditItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
 
-        item = getIntent().getParcelableExtra(Constants.PARAM_ITEM);
+        item = Parcels.unwrap(getIntent().getParcelableExtra(Constants.PARAM_ITEM));
         position = getIntent().getIntExtra(Constants.PARAM_POSITION, -1);
 
         etName = (EditText) findViewById(R.id.etName);
@@ -32,7 +34,7 @@ public class EditItemActivity extends AppCompatActivity {
         item.setName(itemName);
         item.setStatus("Updated");
         Intent i = new Intent();
-        i.putExtra(Constants.PARAM_ITEM, item);
+        i.putExtra(Constants.PARAM_ITEM, Parcels.wrap(item));
         i.putExtra(Constants.PARAM_POSITION, position);
         setResult(RESULT_OK, i);
         finish();

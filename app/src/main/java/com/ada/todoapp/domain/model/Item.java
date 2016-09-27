@@ -1,26 +1,31 @@
 package com.ada.todoapp.domain.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Select;
+import org.parceler.Parcel;
 
 import java.util.List;
 
 /**
  * Created by ada on 9/13/16.
  */
-@Table(name = "Item", id = "_id")
-public class Item extends Model implements Parcelable {
+@Table(database = ToDoDatabase.class)
+@Parcel(analyze={Item.class})
+public class Item extends BaseModel {
+
+    @Column
+    @PrimaryKey(autoincrement = true)
+    int id;
 
     //TODO Enum?
     @Column(name = "status")
     String status;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     String name;
 
     public Item(String status, String name) {
@@ -32,23 +37,6 @@ public class Item extends Model implements Parcelable {
         super();
     }
 
-    private Item(Parcel in) {
-        this.name = in.readString();
-        this.status = in.readString();
-        //TODO how to set id in activeandroid??? there is no this.setId();
-    }
-
-    public static final Creator<Item> CREATOR = new Creator<Item>() {
-        @Override
-        public Item createFromParcel(Parcel in) {
-            return new Item(in);
-        }
-
-        @Override
-        public Item[] newArray(int size) {
-            return new Item[size];
-        }
-    };
 
     public String getName() {
         return this.name;
@@ -66,24 +54,15 @@ public class Item extends Model implements Parcelable {
         this.status = status;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.name);
-        dest.writeString(this.status);
-    }
-
     //DB operations
 
     public static Item get(int id) {
-        return new Select().from(Item.class).where("remoteId = ? ", id).executeSingle();
+
+        return SQLite.select().from(Item.class).where(Item_Table.id.eq(id)).querySingle();
     }
 
     public static List<Item> getAll() {
-        return new Select().from(Item.class).orderBy("name").execute();
+        return SQLite.select().from(Item.class).queryList();
     }
 
 
