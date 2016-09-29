@@ -1,7 +1,8 @@
 package com.ada.todoapp.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,16 +10,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.ada.todoapp.utils.Constants;
 import com.ada.todoapp.R;
 import com.ada.todoapp.adapters.ItemArrayAdapter;
+import com.ada.todoapp.fragments.EditItemDialogFragment;
 import com.ada.todoapp.models.Item;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EditItemDialogFragment.EditItemDialogListener {
 
     ArrayList<Item> todoItems;
     ItemArrayAdapter<Item> aToDoAdapter;
@@ -43,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
         rvItems.setAdapter(aToDoAdapter);
     }
 
+    private void showEditDialog(Item item, int position) {
+        FragmentManager fm = getSupportFragmentManager();
+        EditItemDialogFragment editNameDialogFragment = EditItemDialogFragment.newInstance("Some Title", item, position);
+        editNameDialogFragment.show(fm, "fragment_edit_item");
+    }
+
+
     public void populateArrayItems() {
         readItems();
         aToDoAdapter = new ItemArrayAdapter<Item>(
@@ -59,10 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(int position) {
                         Item item = todoItems.get(position);
-                        Intent i = new Intent(MainActivity.this, EditItemActivity.class);
-                        i.putExtra(Constants.PARAM_POSITION, position);
-                        i.putExtra(Constants.PARAM_ITEM, Parcels.wrap(item));
-                        startActivityForResult(i, REQUEST_CODE_EDIT);
+                        showEditDialog(item, position);
                     }
                 });
     }
@@ -75,19 +80,6 @@ public class MainActivity extends AppCompatActivity {
         aToDoAdapter.notifyDataSetChanged();
         llmLayoutManager.smoothScrollToPosition(rvItems, null, todoItems.size() - 1);
         etEditText.setText("");
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_EDIT && resultCode == RESULT_OK) {
-            int position = data.getIntExtra(Constants.PARAM_POSITION, -1);
-            Item updatedItem = Parcels.unwrap(data.getParcelableExtra(Constants.PARAM_ITEM));
-            if (writeItem(updatedItem)) {
-                todoItems.set(position, updatedItem);
-            }
-            aToDoAdapter.notifyDataSetChanged();
-        }
-
     }
 
     private boolean readItems() {
@@ -120,5 +112,14 @@ public class MainActivity extends AppCompatActivity {
         }
         Toast.makeText(this, R.string.info_item_saved, Toast.LENGTH_SHORT).show();
         return true;
+    }
+
+    @Override
+    public void onFinishEditDialog(Parcelable parcel, int position) {
+        Item updatedItem = Parcels.unwrap(parcel);
+        if (writeItem(updatedItem)) {
+            todoItems.set(position, updatedItem);
+        }
+        aToDoAdapter.notifyDataSetChanged();
     }
 }

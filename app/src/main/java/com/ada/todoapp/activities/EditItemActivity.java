@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
-import com.ada.todoapp.utils.Constants;
 import com.ada.todoapp.R;
 import com.ada.todoapp.models.Item;
+import com.ada.todoapp.utils.Constants;
 
 import org.parceler.Parcels;
 
@@ -29,6 +29,7 @@ public class EditItemActivity extends AppCompatActivity {
 
         etName = (EditText) findViewById(R.id.etName);
         etName.setText(item.getName());
+
     }
 
     public void onSaveItem(View view) {

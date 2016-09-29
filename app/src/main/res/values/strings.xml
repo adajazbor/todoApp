@@ -12,4 +12,5 @@
     <string name="errorItemNotUniqueName">Cannot save item - name has to be unique</string>
     <string name="errorSaveItem">Cannot save item</string>
     <string name="errorItemDelete">Cannot remove item</string>
+    <string name="pick_date">pick data</string>
 </resources>
