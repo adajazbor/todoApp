@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements EditItemDialogFra
                 todoItems.addAll(Item.getAll());
             }
         } catch (Exception e) {
-            Toast.makeText(this, R.string.errorReadItem, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.error_read_item, Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements EditItemDialogFra
         try {
             todoItems.get(position).delete();
         } catch (Exception e) {
-            Toast.makeText(this, R.string.errorItemDelete, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.error_item_delete, Toast.LENGTH_LONG).show();
             return false;
         }
         todoItems.remove(position);
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements EditItemDialogFra
         try {
             Item.save(item);
         } catch (Exception e) {
-            Toast.makeText(this, R.string.errorSaveItem, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.error_save_item, Toast.LENGTH_LONG).show();
             return false;
         }
         Toast.makeText(this, R.string.info_item_saved, Toast.LENGTH_SHORT).show();

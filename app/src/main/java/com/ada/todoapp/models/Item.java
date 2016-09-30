@@ -36,13 +36,13 @@ public class Item extends BaseModel {
     @Column(name = "priority")
     String priority;
 
+    @Column(name = "notes")
+    String notes;
+
     public Item(String status, String name) {
         this.status = status;
         this.name = name;
     }
-
-    public static final String[] statuses = {"TODO", "DONE"};
-    public static final String[] priorities = {"HIGH", "MEDIUM", "LOW"};
 
     public Item() {
         super();
@@ -63,6 +63,9 @@ public class Item extends BaseModel {
     public String getPriority() {
         return this.priority;
     }
+    public String getNotes() {
+        return this.notes;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -79,6 +82,9 @@ public class Item extends BaseModel {
     public void setPriority(String priority) {
         this.priority = priority;
     }
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 
     //====== DB operations
 
@@ -87,7 +93,7 @@ public class Item extends BaseModel {
     }
 
     public static List<Item> getAll() {
-        return SQLite.select().from(Item.class).queryList();
+        return SQLite.select().from(Item.class).orderBy(Item_Table.priority, false).queryList();
     }
 
     public static void save(Item item) {

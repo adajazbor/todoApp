@@ -1,5 +1,6 @@
 package com.ada.todoapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -7,9 +8,11 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.ada.todoapp.R;
 import com.ada.todoapp.models.Item;
@@ -28,7 +31,10 @@ public class EditItemDialogFragment extends DialogFragment {
     private Item mItem;
 
     private EditText etName;
+    private EditText etNotes;
     private DatePicker dpDue;
+    private Spinner sPriority;
+    private Spinner sStatus;
 
     public EditItemDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -67,6 +73,18 @@ public class EditItemDialogFragment extends DialogFragment {
         etName = (EditText) view.findViewById(R.id.etName);
         etName.setText(mItem.getName());
 
+        dpDue = (DatePicker) view.findViewById(R.id.dpDue);
+        dateToDatePicker(mItem.getDueDate());
+
+        etNotes = (EditText) view.findViewById(R.id.etNotes);
+        etNotes.setText(mItem.getNotes());
+
+        sPriority = (Spinner) view.findViewById(R.id.sPriority);
+        sPriority.setAdapter(getArrayAdapter(view.getContext(), R.array.array_priorities));
+
+        sStatus = (Spinner) view.findViewById(R.id.sStatus);
+        sStatus.setAdapter(getArrayAdapter(view.getContext(), R.array.array_statuses));
+
         View.OnClickListener onSave = getOnSaveListener();
         Button btnSave = (Button) view.findViewById(R.id.btnSave);
         btnSave.setOnClickListener(onSave);
@@ -74,9 +92,6 @@ public class EditItemDialogFragment extends DialogFragment {
         View.OnClickListener onCancel = getOnCancelListener();
         Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(onCancel);
-
-        dpDue = (DatePicker) view.findViewById(R.id.dpDue);
-        dateToDatePicker(mItem.getDueDate());
 
         // Show soft keyboard automatically and request focus to field
         //etName.requestFocus();
@@ -87,9 +102,10 @@ public class EditItemDialogFragment extends DialogFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String itemName = etName.getText().toString();
-                mItem.setName(itemName);
-                mItem.setStatus("Updated");
+                mItem.setName(etName.getText().toString());
+                mItem.setStatus((String) sStatus.getSelectedItem());
+                mItem.setPriority((String) sPriority.getSelectedItem());
+                mItem.setNotes((String) etNotes.getText().toString());
                 mItem.setDueDate(datePickerToDate());
                 EditItemDialogListener listener = (EditItemDialogListener) getActivity();
                 listener.onFinishEditDialog(Parcels.wrap(mItem));
@@ -105,6 +121,13 @@ public class EditItemDialogFragment extends DialogFragment {
                 dismiss();
             }
         };
+    }
+
+    private ArrayAdapter<CharSequence> getArrayAdapter(Context context, int testArrayResId) {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
+                testArrayResId, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return adapter;
     }
 
     private void dateToDatePicker(Date date) {

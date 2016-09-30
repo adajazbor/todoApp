@@ -9,11 +9,22 @@
     <string name="title_items_list">Items List</string>
     <string name="title_item_edit">Edit Item</string>
     <string name="title_item_add">Add Item</string>
-    <string name="errorReadItem">Cannot read items</string>
-    <string name="errorItemNotUniqueName">Cannot save item - name has to be unique</string>
-    <string name="errorSaveItem">Cannot save item</string>
-    <string name="errorItemDelete">Cannot remove item</string>
+    <string name="error_read_item">Cannot read items</string>
+    <string name="error_save_item">Cannot save item</string>
+    <string name="error_item_delete">Cannot remove item</string>
     <string name="pick_date">pick data</string>
     <string name="todo">TODO</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="hint_item_notes">Enter notes for this task</string>
+    <string name="hint_item_name">Enter name of task</string>
+
+    <string-array name="array_priorities">
+        <item>LOW</item>
+        <item>MEDIUM</item>
+        <item>HIGH</item>
+    </string-array>
+    <string-array name="array_statuses">
+        <item>TODO</item>
+        <item>DONE</item>
+    </string-array>
 </resources>

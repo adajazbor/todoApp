@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.ada.todoapp.R;
 import com.ada.todoapp.models.Item;
+import com.ada.todoapp.utils.Utils;
 
 import java.util.List;
 
@@ -29,6 +30,8 @@ public class ItemArrayAdapter<I> extends RecyclerView.Adapter<ItemArrayAdapter.V
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvItemStatus;
         public TextView tvItemName;
+        public TextView tvItemPriority;
+        public TextView tvItemDue;
 
         public ViewHolder(View itemView) {
             // Stores the itemView in a public final member variable that can be used
@@ -37,6 +40,9 @@ public class ItemArrayAdapter<I> extends RecyclerView.Adapter<ItemArrayAdapter.V
 
             tvItemStatus = (TextView) itemView.findViewById(R.id.tvItemStatus);
             tvItemName = (TextView) itemView.findViewById(R.id.tvItemName);
+            tvItemPriority = (TextView) itemView.findViewById(R.id.tvItemPriority);
+            tvItemDue = (TextView) itemView.findViewById(R.id.tvItemDue);
+
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -87,6 +93,8 @@ public class ItemArrayAdapter<I> extends RecyclerView.Adapter<ItemArrayAdapter.V
         // Set item views based on your views and data model
         viewHolder.tvItemName.setText(item.getName());
         viewHolder.tvItemStatus.setText(item.getStatus());
+        viewHolder.tvItemPriority.setText(item.getPriority());
+        viewHolder.tvItemDue.setText(Utils.formatDay(item.getDueDate()));
     }
 
     // Returns the total count of items in the list
