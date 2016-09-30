@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by ada on 9/13/16.
  */
-public class ItemArrayAdapter<I> extends RecyclerView.Adapter<ItemArrayAdapter.ViewHolder> {
+public class ItemAdapter<I> extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     public interface ItemArrayAdapterDelegate {
         boolean onLongClick(int position);
@@ -60,7 +60,7 @@ public class ItemArrayAdapter<I> extends RecyclerView.Adapter<ItemArrayAdapter.V
 
 
     // Pass in the contact array into the constructor
-    public ItemArrayAdapter(Context context, List<Item> items, ItemArrayAdapterDelegate delegate) {
+    public ItemAdapter(Context context, List<Item> items, ItemArrayAdapterDelegate delegate) {
         mItems = items;
         mContext = context;
         mDelegate = delegate;
@@ -72,7 +72,7 @@ public class ItemArrayAdapter<I> extends RecyclerView.Adapter<ItemArrayAdapter.V
     }
 
     @Override
-    public ItemArrayAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -86,7 +86,7 @@ public class ItemArrayAdapter<I> extends RecyclerView.Adapter<ItemArrayAdapter.V
 
     // Involves populating data into the item through holder
     @Override
-    public void onBindViewHolder(ItemArrayAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ItemAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
         Item item = mItems.get(position);
 

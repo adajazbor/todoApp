@@ -10,4 +10,6 @@ public class Constants {
     public static final String PARAM_TITLE = "title";
 
     public static final String FRAGMENT_EDIT_ITEM = "fragment_edit_item";
+
+    public static final int REQUEST_CODE_ADD = 300;
 }

@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import com.ada.todoapp.R;
 import com.ada.todoapp.models.Item;
 import com.ada.todoapp.utils.Constants;
+import com.ada.todoapp.utils.Utils;
 
 import org.parceler.Parcels;
 
@@ -26,7 +27,7 @@ import java.util.Date;
 /**
  * Created by ada on 9/26/16.
  */
-public class EditItemDialogFragment extends DialogFragment {
+public class ItemEditFragment extends DialogFragment {
 
     private Item mItem;
 
@@ -36,7 +37,7 @@ public class EditItemDialogFragment extends DialogFragment {
     private Spinner sPriority;
     private Spinner sStatus;
 
-    public EditItemDialogFragment() {
+    public ItemEditFragment() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
@@ -46,8 +47,8 @@ public class EditItemDialogFragment extends DialogFragment {
         void onFinishEditDialog(Parcelable parcel);
     }
 
-    public static EditItemDialogFragment newInstance(String title, Item item) {
-        EditItemDialogFragment frag = new EditItemDialogFragment();
+    public static ItemEditFragment newInstance(String title, Item item) {
+        ItemEditFragment frag = new ItemEditFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putParcelable(Constants.PARAM_ITEM, Parcels.wrap(item));
@@ -81,9 +82,11 @@ public class EditItemDialogFragment extends DialogFragment {
 
         sPriority = (Spinner) view.findViewById(R.id.sPriority);
         sPriority.setAdapter(getArrayAdapter(view.getContext(), R.array.array_priorities));
+        Utils.setSpinnerItemByValue(sPriority, mItem.getPriority());
 
         sStatus = (Spinner) view.findViewById(R.id.sStatus);
         sStatus.setAdapter(getArrayAdapter(view.getContext(), R.array.array_statuses));
+        Utils.setSpinnerItemByValue(sStatus, mItem.getStatus());
 
         View.OnClickListener onSave = getOnSaveListener();
         Button btnSave = (Button) view.findViewById(R.id.btnSave);
@@ -107,7 +110,7 @@ public class EditItemDialogFragment extends DialogFragment {
                 mItem.setPriority((String) sPriority.getSelectedItem());
                 mItem.setNotes((String) etNotes.getText().toString());
                 mItem.setDueDate(datePickerToDate());
-                EditItemDialogListener listener = (EditItemDialogListener) getActivity();
+                EditItemDialogListener listener = (EditItemDialogListener) getTargetFragment();
                 listener.onFinishEditDialog(Parcels.wrap(mItem));
                 dismiss();
             }

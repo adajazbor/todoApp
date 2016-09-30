@@ -1,7 +1,6 @@
 package com.ada.todoapp.activities;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,19 +9,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ada.todoapp.R;
-import com.ada.todoapp.adapters.ItemArrayAdapter;
-import com.ada.todoapp.fragments.EditItemDialogFragment;
+import com.ada.todoapp.adapters.ItemAdapter;
+import com.ada.todoapp.fragments.ItemDetailFragment;
 import com.ada.todoapp.models.Item;
 import com.ada.todoapp.utils.Constants;
 
-import org.parceler.Parcels;
-
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements EditItemDialogFragment.EditItemDialogListener {
+public class MainActivity extends AppCompatActivity implements ItemDetailFragment.DetailItemDialogListener {
 
     List<Item> todoItems;
-    ItemArrayAdapter<Item> aToDoAdapter;
+    ItemAdapter<Item> aToDoAdapter;
     RecyclerView rvItems;
     LinearLayoutManager llmLayoutManager;
 
@@ -39,21 +36,21 @@ public class MainActivity extends AppCompatActivity implements EditItemDialogFra
 
     public void populateArrayItems() {
         readItems();
-        aToDoAdapter = new ItemArrayAdapter<Item>(
+        aToDoAdapter = new ItemAdapter<Item>(
                 this,
                 todoItems,
-                new ItemArrayAdapter.ItemArrayAdapterDelegate() {
+                new ItemAdapter.ItemArrayAdapterDelegate() {
                     @Override
                     public boolean onLongClick(int position) {
-                        deleteItem(position);
-                        aToDoAdapter.notifyDataSetChanged();
+                        //deleteItem(position);
+                        //aToDoAdapter.notifyDataSetChanged();
                         return true;
                     }
 
                     @Override
                     public void onClick(int position) {
                         Item item = todoItems.get(position);
-                        showEditDialog(item, getString(R.string.title_item_edit));
+                        showDetailDialog(item);
                     }
                 });
     }
@@ -64,20 +61,25 @@ public class MainActivity extends AppCompatActivity implements EditItemDialogFra
     }
 
     private void showEditDialog(Item item, String title) {
+        /*
         FragmentManager fm = getSupportFragmentManager();
-        EditItemDialogFragment editNameDialogFragment = EditItemDialogFragment.newInstance(title, item);
+        ItemEditFragment editNameDialogFragment = ItemEditFragment.newInstance(title, item);
+        editNameDialogFragment.setTargetFragment(ItemDetailFragment.newInstance(item), Constants.REQUEST_CODE_ADD);
         editNameDialogFragment.show(fm, Constants.FRAGMENT_EDIT_ITEM);
+        */
+    }
+
+    private void showDetailDialog(Item item) {
+        FragmentManager fm = getSupportFragmentManager();
+        ItemDetailFragment detailDialogFragment = ItemDetailFragment.newInstance(item);
+        detailDialogFragment.show(fm, Constants.FRAGMENT_EDIT_ITEM);
     }
 
     @Override
-    public void onFinishEditDialog(Parcelable parcel) {
-        Item updatedItem = Parcels.unwrap(parcel);
-
-        if (writeItem(updatedItem)) {
-            readItems();
-            aToDoAdapter.notifyDataSetChanged();
-            llmLayoutManager.smoothScrollToPosition(rvItems, null, todoItems.size() - 1);
-        }
+    public void onFinishDetailDialog() {
+        readItems();
+        aToDoAdapter.notifyDataSetChanged();
+        llmLayoutManager.smoothScrollToPosition(rvItems, null, todoItems.size() - 1);
     }
 
 //==== database opperations
@@ -98,25 +100,5 @@ public class MainActivity extends AppCompatActivity implements EditItemDialogFra
         return true;
     }
 
-    private boolean deleteItem(int position) {
-        try {
-            todoItems.get(position).delete();
-        } catch (Exception e) {
-            Toast.makeText(this, R.string.error_item_delete, Toast.LENGTH_LONG).show();
-            return false;
-        }
-        todoItems.remove(position);
-        return true;
-    }
 
-    private boolean writeItem(Item item) {
-        try {
-            Item.save(item);
-        } catch (Exception e) {
-            Toast.makeText(this, R.string.error_save_item, Toast.LENGTH_LONG).show();
-            return false;
-        }
-        Toast.makeText(this, R.string.info_item_saved, Toast.LENGTH_SHORT).show();
-        return true;
-    }
 }
