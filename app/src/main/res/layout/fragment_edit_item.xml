@@ -12,12 +12,36 @@
         android:id="@+id/etName"
         android:inputType="text"/>
 
+    <DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dpDue"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+    <Button
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_cancel"
+        android:id="@+id/btnCancel"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="left" />
+
     <Button
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_save"
         android:id="@+id/btnSave"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        android:layout_gravity="right" />
+   </LinearLayout>
 
 </LinearLayout>

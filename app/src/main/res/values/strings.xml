@@ -8,9 +8,12 @@
     <string name="btn_save">Save</string>
     <string name="title_items_list">Items List</string>
     <string name="title_item_edit">Edit Item</string>
+    <string name="title_item_add">Add Item</string>
     <string name="errorReadItem">Cannot read items</string>
     <string name="errorItemNotUniqueName">Cannot save item - name has to be unique</string>
     <string name="errorSaveItem">Cannot save item</string>
     <string name="errorItemDelete">Cannot remove item</string>
     <string name="pick_date">pick data</string>
+    <string name="todo">TODO</string>
+    <string name="btn_cancel">Cancel</string>
 </resources>
