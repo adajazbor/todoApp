@@ -1,7 +1,7 @@
 package com.ada.todoapp.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,17 +11,18 @@ import android.widget.Toast;
 import com.ada.todoapp.R;
 import com.ada.todoapp.adapters.ItemAdapter;
 import com.ada.todoapp.fragments.ItemDetailFragment;
+import com.ada.todoapp.fragments.ItemEditFragment;
 import com.ada.todoapp.models.Item;
 import com.ada.todoapp.utils.Constants;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ItemDetailFragment.DetailItemDialogListener {
+public class MainActivity extends AppCompatActivity {
 
-    List<Item> todoItems;
-    ItemAdapter<Item> aToDoAdapter;
-    RecyclerView rvItems;
-    LinearLayoutManager llmLayoutManager;
+    private List<Item> todoItems;
+    private ItemAdapter<Item> aToDoAdapter;
+    private RecyclerView rvItems;
+    private LinearLayoutManager llmLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements ItemDetailFragmen
                 new ItemAdapter.ItemArrayAdapterDelegate() {
                     @Override
                     public boolean onLongClick(int position) {
-                        //deleteItem(position);
-                        //aToDoAdapter.notifyDataSetChanged();
                         return true;
                     }
 
@@ -55,31 +54,38 @@ public class MainActivity extends AppCompatActivity implements ItemDetailFragmen
                 });
     }
 
+    public void onAddItemButtonClicked(View view) {
+        ItemEditFragment fragment = ItemEditFragment.newInstance(
+                new ItemEditFragment.EditItemDialogListener() {
+                    @Override
+                    public void onItemSaved(Parcelable parcel) {
+                        onDataChanged(true);
+                    }
+                },
+                getString(R.string.title_item_add),
+                new Item());
 
-    public void onAddItem(View view) {
-        showEditDialog(new Item(), getString(R.string.title_item_add));
-    }
-
-    private void showEditDialog(Item item, String title) {
-        /*
-        FragmentManager fm = getSupportFragmentManager();
-        ItemEditFragment editNameDialogFragment = ItemEditFragment.newInstance(title, item);
-        editNameDialogFragment.setTargetFragment(ItemDetailFragment.newInstance(item), Constants.REQUEST_CODE_ADD);
-        editNameDialogFragment.show(fm, Constants.FRAGMENT_EDIT_ITEM);
-        */
+        fragment.showFragment(getSupportFragmentManager(), null);
     }
 
     private void showDetailDialog(Item item) {
-        FragmentManager fm = getSupportFragmentManager();
-        ItemDetailFragment detailDialogFragment = ItemDetailFragment.newInstance(item);
-        detailDialogFragment.show(fm, Constants.FRAGMENT_EDIT_ITEM);
+        ItemDetailFragment detailDialogFragment = ItemDetailFragment.newInstance(
+                new ItemDetailFragment.DetailItemDialogListener() {
+                    @Override
+                    public void onDataChanged() {
+                        MainActivity.this.onDataChanged(false);
+                    }
+                },
+                item);
+        detailDialogFragment.show(getSupportFragmentManager(), Constants.FRAGMENT_EDIT_ITEM);
     }
 
-    @Override
-    public void onFinishDetailDialog() {
+    private void onDataChanged(boolean scrollToLastItem) {
         readItems();
         aToDoAdapter.notifyDataSetChanged();
-        llmLayoutManager.smoothScrollToPosition(rvItems, null, todoItems.size() - 1);
+        if (scrollToLastItem) {
+            llmLayoutManager.smoothScrollToPosition(rvItems, null, todoItems.size() - 1);
+        }
     }
 
 //==== database opperations
@@ -99,6 +105,5 @@ public class MainActivity extends AppCompatActivity implements ItemDetailFragmen
         }
         return true;
     }
-
 
 }

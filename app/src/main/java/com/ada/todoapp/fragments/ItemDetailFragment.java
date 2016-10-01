@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +20,10 @@ import org.parceler.Parcels;
 /**
  * Created by ada on 9/26/16.
  */
-public class ItemDetailFragment extends DialogFragment implements ItemEditFragment.EditItemDialogListener {
+public class ItemDetailFragment extends DialogFragment {
 
     private Item mItem;
+    private DetailItemDialogListener mListener;
 
     private TextView tvName;
     private TextView tvNotes;
@@ -38,24 +38,24 @@ public class ItemDetailFragment extends DialogFragment implements ItemEditFragme
     }
 
     public interface DetailItemDialogListener {
-        void onFinishDetailDialog();
+        void onDataChanged();
     }
 
-    public static ItemDetailFragment newInstance(Item item) {
+    public static ItemDetailFragment newInstance(DetailItemDialogListener listener, Item item) {
         ItemDetailFragment frag = new ItemDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(Constants.PARAM_ITEM, Parcels.wrap(item));
         frag.setArguments(args);
+        frag.setListener(listener);
         return frag;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_detail_item, container);
     }
 
-    //@Override
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -78,16 +78,16 @@ public class ItemDetailFragment extends DialogFragment implements ItemEditFragme
         tvStatus = (TextView) view.findViewById(R.id.tvStatus);
         tvStatus.setText(mItem.getStatus());
 
-        View.OnClickListener onEdit = getOnEditListener();
         Button btnEdit = (Button) view.findViewById(R.id.btnEdit);
+        View.OnClickListener onEdit = getOnEditListener();
         btnEdit.setOnClickListener(onEdit);
 
-        View.OnClickListener onCancel = getOnDeleteListener();
         Button btnCancel = (Button) view.findViewById(R.id.btnDelete);
+        View.OnClickListener onCancel = getOnDeleteListener();
         btnCancel.setOnClickListener(onCancel);
 
-        View.OnClickListener onBack = getOnBackListener();
         Button btnBack = (Button) view.findViewById(R.id.btnBack);
+        View.OnClickListener onBack = getOnBackListener();
         btnBack.setOnClickListener(onBack);
     }
 
@@ -106,7 +106,8 @@ public class ItemDetailFragment extends DialogFragment implements ItemEditFragme
             public void onClick(View view) {
                 //TODO alert
                 deleteItem(mItem);
-                backToMain();
+                mListener.onDataChanged();
+                dismiss();
             }
         };
     }
@@ -115,27 +116,27 @@ public class ItemDetailFragment extends DialogFragment implements ItemEditFragme
      return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                backToMain();
+                dismiss();
             }
         };
     }
 
-    private void backToMain() {
-        DetailItemDialogListener listener = (DetailItemDialogListener) getActivity();
-        listener.onFinishDetailDialog();
-        dismiss();
-    }
-
     private void showEditDialog(Item item, String title) {
-        FragmentManager fm = getFragmentManager();
-        ItemEditFragment editNameDialogFragment = ItemEditFragment.newInstance(title, item);
-        editNameDialogFragment.show(fm, Constants.FRAGMENT_EDIT_ITEM);
+        ItemEditFragment fragment = ItemEditFragment.newInstance(
+                new ItemEditFragment.EditItemDialogListener() {
+                    @Override
+                    public void onItemSaved(Parcelable parcel) {
+                        mItem = Parcels.unwrap(parcel);
+                        mListener.onDataChanged();
+                    }
+                },
+                title,
+                item);
+        fragment.showFragment(getFragmentManager(), this);
     }
 
-    @Override
-    public void onFinishEditDialog(Parcelable parcel) {
-        mItem = Parcels.unwrap(parcel);
-        writeItem(mItem);
+    public void setListener(DetailItemDialogListener listener) {
+        mListener = listener;
     }
 
     //======= db operations
@@ -143,7 +144,4 @@ public class ItemDetailFragment extends DialogFragment implements ItemEditFragme
         item.delete();
     }
 
-    private void writeItem(Item item) {
-        Item.save(item);
-    }
 }

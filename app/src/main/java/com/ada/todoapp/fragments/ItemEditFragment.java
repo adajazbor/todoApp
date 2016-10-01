@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ import java.util.Date;
 public class ItemEditFragment extends DialogFragment {
 
     private Item mItem;
+    private EditItemDialogListener mListener;
 
     private EditText etName;
     private EditText etNotes;
@@ -44,25 +47,33 @@ public class ItemEditFragment extends DialogFragment {
     }
 
     public interface EditItemDialogListener {
-        void onFinishEditDialog(Parcelable parcel);
+        void onItemSaved(Parcelable parcel);
     }
 
-    public static ItemEditFragment newInstance(String title, Item item) {
+    public static ItemEditFragment newInstance(EditItemDialogListener listener, String title, Item item) {
         ItemEditFragment frag = new ItemEditFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putParcelable(Constants.PARAM_ITEM, Parcels.wrap(item));
         frag.setArguments(args);
+        frag.setListener(listener);
         return frag;
     }
 
+    public void showFragment(FragmentManager fragmentManager, Fragment targetFragment) {
+        if (targetFragment != null) {
+            // TODO do we need REQUEST_CODE_ADD?
+            setTargetFragment(targetFragment, Constants.REQUEST_CODE_ADD);
+        }
+        show(fragmentManager, Constants.FRAGMENT_EDIT_ITEM);
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_edit_item, container);
     }
 
-    //@Override
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -88,12 +99,12 @@ public class ItemEditFragment extends DialogFragment {
         sStatus.setAdapter(getArrayAdapter(view.getContext(), R.array.array_statuses));
         Utils.setSpinnerItemByValue(sStatus, mItem.getStatus());
 
-        View.OnClickListener onSave = getOnSaveListener();
         Button btnSave = (Button) view.findViewById(R.id.btnSave);
+        View.OnClickListener onSave = getOnSaveListener();
         btnSave.setOnClickListener(onSave);
 
-        View.OnClickListener onCancel = getOnCancelListener();
         Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        View.OnClickListener onCancel = getOnCancelListener();
         btnCancel.setOnClickListener(onCancel);
 
         // Show soft keyboard automatically and request focus to field
@@ -110,8 +121,8 @@ public class ItemEditFragment extends DialogFragment {
                 mItem.setPriority((String) sPriority.getSelectedItem());
                 mItem.setNotes((String) etNotes.getText().toString());
                 mItem.setDueDate(datePickerToDate());
-                EditItemDialogListener listener = (EditItemDialogListener) getTargetFragment();
-                listener.onFinishEditDialog(Parcels.wrap(mItem));
+                writeItem(mItem);
+                mListener.onItemSaved(Parcels.wrap(mItem));
                 dismiss();
             }
         };
@@ -150,4 +161,14 @@ public class ItemEditFragment extends DialogFragment {
         cal.set(year, month, day, 0,0,0);
         return cal.getTime();
     }
+
+    private void setListener(EditItemDialogListener listener) {
+        mListener = listener;
+    }
+
+    //======= db operations
+    private void writeItem(Item item) {
+        Item.save(item);
+    }
+
 }
