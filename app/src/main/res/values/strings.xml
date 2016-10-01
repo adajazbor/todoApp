@@ -14,9 +14,6 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_back">Back</string>
 
-    <string name="hint_item_notes">Enter notes for this task</string>
-    <string name="hint_item_name">Enter name of task</string>
-
     <string name="pick_date">pick data</string>
     <string name="todo">TODO</string>
     <string name="app_name">ToDoApp</string>
@@ -24,6 +21,11 @@
     <string name="add_item">Add a new item</string>
     <string name="info_item_saved">Item has been saved</string>
     <string name="text_item_edit">Edit Item Below</string>
+    <string name="task_name">Task Name</string>
+    <string name="dueDate">Due Date</string>
+    <string name="notes">Notes</string>
+    <string name="priority">Priority</string>
+    <string name="status">Status</string>
 
     <string-array name="array_priorities">
         <item>LOW</item>

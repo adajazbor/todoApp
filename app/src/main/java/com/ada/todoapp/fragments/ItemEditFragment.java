@@ -93,7 +93,7 @@ public class ItemEditFragment extends DialogFragment {
 
         sPriority = (Spinner) view.findViewById(R.id.sPriority);
         sPriority.setAdapter(getArrayAdapter(view.getContext(), R.array.array_priorities));
-        Utils.setSpinnerItemByValue(sPriority, mItem.getPriority());
+        sPriority.setSelection(mItem.getPriority());
 
         sStatus = (Spinner) view.findViewById(R.id.sStatus);
         sStatus.setAdapter(getArrayAdapter(view.getContext(), R.array.array_statuses));
@@ -118,7 +118,7 @@ public class ItemEditFragment extends DialogFragment {
             public void onClick(View view) {
                 mItem.setName(etName.getText().toString());
                 mItem.setStatus((String) sStatus.getSelectedItem());
-                mItem.setPriority((String) sPriority.getSelectedItem());
+                mItem.setPriority(sPriority.getSelectedItemPosition());
                 mItem.setNotes((String) etNotes.getText().toString());
                 mItem.setDueDate(datePickerToDate());
                 writeItem(mItem);

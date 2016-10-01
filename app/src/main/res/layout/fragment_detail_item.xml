@@ -1,50 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- TODO - only by wrapping linear layout in relative layout the dialog fragment adjusted its
+     size to cover the view content. Why? -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+<LinearLayout
     android:id="@+id/edit_name"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:layout_marginTop="20dp"
     android:orientation="vertical">
 
-    <Button
-        style="?android:attr/buttonBarButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_back"
-        android:id="@+id/btnBack"
-        android:layout_marginTop="30dp"
-        android:layout_gravity="left" />
-
-    <TextView
+    <!-- name -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvName"/>
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvDue"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:text="@string/task_name"
+            style="@style/detailsBoldFont"
+            />
 
-    <TextView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:id="@+id/tvName"
+            android:text="Example name"
+            style="@style/detailsRegularFont"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/darker_gray"/>
+
+    <!-- due date -->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvNotes" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <TextView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:text="@string/dueDate"
+            style="@style/detailsBoldFont"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:id="@+id/tvDue"
+            android:text="Example due"
+            style="@style/detailsRegularFont"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/darker_gray"/>
+
+    <!-- notes -->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvPriority" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <TextView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:text="@string/notes"
+            style="@style/detailsBoldFont"
+            />
+
+        <TextView
+            android:id="@+id/tvNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="Example notes"
+            style="@style/detailsRegularFont"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/darker_gray"/>
+
+    <!-- priority -->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvStatus" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:text="@string/priority"
+            style="@style/detailsBoldFont"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:id="@+id/tvPriority"
+            android:text="Example priority"
+            style="@style/detailsRegularFont"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/darker_gray"/>
+
+    <!-- status -->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:text="@string/status"
+            style="@style/detailsBoldFont"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:id="@+id/tvStatus"
+            android:text="Example status"
+            style="@style/detailsRegularFont"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/darker_gray"/>
+
+    <!-- bottom buttons -->
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal">
+
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_back"
+            android:id="@+id/btnBack"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="left" />
 
         <Button
             style="?android:attr/buttonBarButtonStyle"
@@ -66,3 +255,4 @@
    </LinearLayout>
 
 </LinearLayout>
+</RelativeLayout>

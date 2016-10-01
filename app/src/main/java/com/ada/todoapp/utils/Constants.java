@@ -6,7 +6,6 @@ package com.ada.todoapp.utils;
 public class Constants {
 
     public static final String PARAM_ITEM = "item";
-    public static final String PARAM_POSITION = "position";
     public static final String PARAM_TITLE = "title";
 
     public static final String FRAGMENT_EDIT_ITEM = "fragment_edit_item";

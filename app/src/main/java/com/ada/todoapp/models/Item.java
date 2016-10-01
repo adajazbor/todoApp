@@ -34,7 +34,7 @@ public class Item extends BaseModel {
 
     //TODO Enum
     @Column(name = "priority")
-    String priority;
+    int priority;
 
     @Column(name = "notes")
     String notes;
@@ -60,7 +60,7 @@ public class Item extends BaseModel {
     public Date getDueDate() {
         return this.dueDate;
     }
-    public String getPriority() {
+    public int getPriority() {
         return this.priority;
     }
     public String getNotes() {
@@ -79,7 +79,7 @@ public class Item extends BaseModel {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
-    public void setPriority(String priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
     public void setNotes(String notes) {
@@ -105,6 +105,5 @@ public class Item extends BaseModel {
     }
 
     //======= helpers
-
 
 }

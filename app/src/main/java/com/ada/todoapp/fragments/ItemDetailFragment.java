@@ -24,6 +24,7 @@ public class ItemDetailFragment extends DialogFragment {
 
     private Item mItem;
     private DetailItemDialogListener mListener;
+    private String[] mPriorities;
 
     private TextView tvName;
     private TextView tvNotes;
@@ -59,24 +60,18 @@ public class ItemDetailFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mPriorities = getResources().getStringArray(R.array.array_priorities);
+
         getDialog().setTitle(R.string.title_item_detail);
 
         mItem = Parcels.unwrap(getArguments().getParcelable(Constants.PARAM_ITEM));
-
         tvName = (TextView) view.findViewById(R.id.tvName);
-        tvName.setText(mItem.getName());
-
         tvDue = (TextView) view.findViewById(R.id.tvDue);
-        tvDue.setText(Utils.formatDay(mItem.getDueDate()));
-
         tvNotes = (TextView) view.findViewById(R.id.tvNotes);
-        tvNotes.setText(mItem.getNotes());
-
         tvPriority = (TextView) view.findViewById(R.id.tvPriority);
-        tvPriority.setText(mItem.getPriority());
-
         tvStatus = (TextView) view.findViewById(R.id.tvStatus);
-        tvStatus.setText(mItem.getStatus());
+
+        refreshUiFromItem();
 
         Button btnEdit = (Button) view.findViewById(R.id.btnEdit);
         View.OnClickListener onEdit = getOnEditListener();
@@ -89,6 +84,14 @@ public class ItemDetailFragment extends DialogFragment {
         Button btnBack = (Button) view.findViewById(R.id.btnBack);
         View.OnClickListener onBack = getOnBackListener();
         btnBack.setOnClickListener(onBack);
+    }
+
+    private void refreshUiFromItem() {
+        tvName.setText(mItem.getName());
+        tvDue.setText(Utils.formatDay(mItem.getDueDate()));
+        tvNotes.setText(mItem.getNotes());
+        tvPriority.setText(mPriorities[mItem.getPriority()]);
+        tvStatus.setText(mItem.getStatus());
     }
 
     private View.OnClickListener getOnEditListener() {
@@ -127,6 +130,7 @@ public class ItemDetailFragment extends DialogFragment {
                     @Override
                     public void onItemSaved(Parcelable parcel) {
                         mItem = Parcels.unwrap(parcel);
+                        refreshUiFromItem();
                         mListener.onDataChanged();
                     }
                 },

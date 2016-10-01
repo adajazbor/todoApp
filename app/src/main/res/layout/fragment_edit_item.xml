@@ -1,40 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- TODO - only by wrapping linear layout in relative layout the dialog fragment adjusted its
+     size to cover the view content. Why? -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+<LinearLayout
     android:id="@+id/edit_name"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:layout_marginTop="20dp"
     android:orientation="vertical">
 
-    <EditText
+    <!-- name -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etName"
-        android:hint="@string/hint_item_name"
-        android:inputType="text"/>
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <DatePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dpDue"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"/>
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:text="@string/task_name"
+            style="@style/detailsBoldFont"
+            />
 
-    <EditText
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:id="@+id/etName"
+            android:inputType="textMultiLine"
+            style="@style/detailsRegularFont"/>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/darker_gray"/>
+
+    <!-- due date -->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_item_notes"
-        android:id="@+id/etNotes" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <Spinner
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:text="@string/dueDate"
+            style="@style/detailsBoldFont"
+            />
+
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:id="@+id/dpDue"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/darker_gray"/>
+
+    <!-- notes -->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/sPriority" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <Spinner
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:text="@string/notes"
+            style="@style/detailsBoldFont"
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:layout_weight="1"
+            android:inputType="textMultiLine"
+            android:gravity="left"
+            android:id="@+id/etNotes"
+            style="@style/detailsRegularFont"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/darker_gray"/>
+
+    <!-- priority -->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/sStatus" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:text="@string/priority"
+            style="@style/detailsBoldFont"
+            />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:id="@+id/sPriority" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/darker_gray"/>
+
+    <!-- status -->
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:text="@string/status"
+            style="@style/detailsBoldFont"
+            />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+            android:layout_marginBottom="@dimen/text_view_bottom_margin"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:id="@+id/sStatus" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginRight="@dimen/details_view_row_horizontal_margin"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/darker_gray"/>
+
+    <!-- buttons -->
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
@@ -62,3 +234,4 @@
    </LinearLayout>
 
 </LinearLayout>
+</RelativeLayout>

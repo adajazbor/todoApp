@@ -9,39 +9,40 @@ import android.widget.TextView;
 
 import com.ada.todoapp.R;
 import com.ada.todoapp.models.Item;
-import com.ada.todoapp.utils.Utils;
 
 import java.util.List;
 
 /**
  * Created by ada on 9/13/16.
  */
-public class ItemAdapter<I> extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+
+    private final static int [] mPriorityStyles = new int [] {
+            R.style.priorityFontLow,
+            R.style.priorityFontMedium,
+            R.style.priorityFontHigh};
+
+    private List<Item> mItems;
+    private ItemArrayAdapterDelegate mDelegate;
+    private Context mContext;
+    private String[] mPriorities;
 
     public interface ItemArrayAdapterDelegate {
         boolean onLongClick(int position);
         void onClick(int position);
     }
 
-    private List<Item> mItems;
-    private Context mContext;
-    private ItemArrayAdapterDelegate mDelegate;
-
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvItemStatus;
         public TextView tvItemName;
         public TextView tvItemPriority;
-        public TextView tvItemDue;
 
         public ViewHolder(View itemView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            tvItemStatus = (TextView) itemView.findViewById(R.id.tvItemStatus);
             tvItemName = (TextView) itemView.findViewById(R.id.tvItemName);
             tvItemPriority = (TextView) itemView.findViewById(R.id.tvItemPriority);
-            tvItemDue = (TextView) itemView.findViewById(R.id.tvItemDue);
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -58,12 +59,12 @@ public class ItemAdapter<I> extends RecyclerView.Adapter<ItemAdapter.ViewHolder>
         }
     }
 
-
     // Pass in the contact array into the constructor
     public ItemAdapter(Context context, List<Item> items, ItemArrayAdapterDelegate delegate) {
         mItems = items;
         mContext = context;
         mDelegate = delegate;
+        mPriorities = context.getResources().getStringArray(R.array.array_priorities);
     }
 
     // Easy access to the context object in the recyclerview
@@ -92,9 +93,8 @@ public class ItemAdapter<I> extends RecyclerView.Adapter<ItemAdapter.ViewHolder>
 
         // Set item views based on your views and data model
         viewHolder.tvItemName.setText(item.getName());
-        viewHolder.tvItemStatus.setText(item.getStatus());
-        viewHolder.tvItemPriority.setText(item.getPriority());
-        viewHolder.tvItemDue.setText(Utils.formatDay(item.getDueDate()));
+        viewHolder.tvItemPriority.setText(mPriorities[item.getPriority()]);
+        viewHolder.tvItemPriority.setTextAppearance(mContext, mPriorityStyles[item.getPriority()]);
     }
 
     // Returns the total count of items in the list

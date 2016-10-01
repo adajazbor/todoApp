@@ -20,7 +20,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private List<Item> todoItems;
-    private ItemAdapter<Item> aToDoAdapter;
+    private ItemAdapter aToDoAdapter;
     private RecyclerView rvItems;
     private LinearLayoutManager llmLayoutManager;
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void populateArrayItems() {
         readItems();
-        aToDoAdapter = new ItemAdapter<Item>(
+        aToDoAdapter = new ItemAdapter(
                 this,
                 todoItems,
                 new ItemAdapter.ItemArrayAdapterDelegate() {
