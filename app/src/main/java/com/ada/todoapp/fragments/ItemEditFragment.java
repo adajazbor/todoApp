@@ -149,7 +149,7 @@ public class ItemEditFragment extends DialogFragment {
         if (date != null) {
             cal.setTime(date);
         }
-        dpDue.setMinDate(cal.getTimeInMillis());
+        //dpDue.setMinDate(cal.getTimeInMillis());
         dpDue.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
     }
 

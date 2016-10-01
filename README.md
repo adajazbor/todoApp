@@ -18,24 +18,24 @@ The following **optional** features are implemented:
 
 * [x] Persist the todo items [into SQLite](http://guides.codepath.com/android/Persisting-Data-to-the-Device#sqlite) instead of a text file
 * [x] Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
-* [ ] Add support for completion due dates for todo items (and display within listview item)
-* [ ] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
-* [ ] Add support for selecting the priority of each todo item (and display in listview item)
-* [ ] Tweak the style improving the UI / UX, play with colors, images or backgrounds
+* [X] Add support for completion due dates for todo items (and display within listview item)
+* [X] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
+* [X] Add support for selecting the priority of each todo item (and display in listview item)
+* [X] Tweak the style improving the UI / UX, play with colors, images or backgrounds
 
 The following **additional** features are implemented:
 
-* [x] Added Activeandroid for db mappings
+* [x] Added dbflow for db mappings
 * [x] Added parcelable model
-* [x] Added status column to Item table. Status == New for a new item and Updated for edited item.
 * [x] Changed listView to recycleView
 * [x] Added scrolling recycleView to the end when a new item is added
+* [x] Making the app look similar to the one provided by Codepath as an example of an excellent submission
 
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://www.dropbox.com/s/m54dpc8gs2p7err/demo3.gif?raw=1' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://www.dropbox.com/s/b3nybfpr9jtf2po/demo5.gif?raw=1' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
